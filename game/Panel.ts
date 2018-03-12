@@ -12,8 +12,8 @@ export enum ControlType {
 export class Panel extends ex.Actor {
     private controlType: ControlType;
 
-    constructor(x, y, controlType: ControlType) {
-        super(x, y, 10, 100, ex.Color.Red);
+    constructor(x, y, color, controlType: ControlType) {
+        super(x, y, 10, 100, color);
 
         this.collisionType = ex.CollisionType.Fixed;
         this.controlType = controlType;

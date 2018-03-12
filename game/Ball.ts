@@ -1,10 +1,15 @@
 import * as ex from "excalibur";
 import {Resources} from "./Resources";
+import {Brick} from "./Brick";
 
 export class Ball extends ex.Actor {
 
-    constructor(x: number, y: number) {
+    private bricks: Array<Brick>; 
+
+    constructor(x: number, y: number, bricks: Array<Brick>) {
         super(x, y, 20, 20, ex.Color.Red);
+
+        this.bricks = bricks;
 
         this.collisionType = ex.CollisionType.Passive;
 
@@ -56,11 +61,11 @@ export class Ball extends ex.Actor {
     }
 
     onCollision(ev) {
-        //if (bricks.indexOf(ev.other) > -1) {
+        if (this.bricks.indexOf(ev.other) > -1) {
             // kill removes an actor from the current scene
             // therefore it will no longer be drawn or updated
-            //ev.other.kill();
-        //}
+            ev.other.kill();
+        }
 
         // reverse course after any collision
         // intersections are the direction body A has to move to not be clipping body B
