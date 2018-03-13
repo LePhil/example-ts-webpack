@@ -1,5 +1,6 @@
 import * as ex from "excalibur";
 import {Resources} from "./Resources";
+import {Config} from "./Config";
 import {Brick} from "./Brick";
 
 export class Ball extends ex.Actor {
@@ -7,13 +8,13 @@ export class Ball extends ex.Actor {
     private bricks: Array<Brick>; 
 
     constructor(x: number, y: number, bricks: Array<Brick>) {
-        super(x, y, 20, 20, ex.Color.Red);
+        super(x, y, Config.Ballsize, Config.Ballsize, Config.Ballcolor);
 
         this.bricks = bricks;
 
         this.collisionType = ex.CollisionType.Passive;
 
-        this.vel.setTo(100, 100);
+        this.vel.setTo(Config.BallspeedX, Config.BallspeedY);
 
         // On collision remove the brick, bounce the ball
         this.on('precollision', (ev) => {

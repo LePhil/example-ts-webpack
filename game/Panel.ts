@@ -1,6 +1,10 @@
 import * as ex from "excalibur";
+import {Position, Config} from "./Config";
 import {Resources} from "./Resources";
-import { KeyEvent } from "Input/Index";
+import {Brick} from "./Brick";
+import {Shot} from "./Shot";
+import {KeyEvent} from "Input/Index";
+import { Engine } from "excalibur";
 
 export enum ControlType {
     Mouse,
@@ -10,13 +14,20 @@ export enum ControlType {
 }
 
 export class Panel extends ex.Actor {
+    public position: Position;
+    public color: ex.Color;
     private controlType: ControlType;
+    private bricks: Array<Brick>;
+    private game: ex.Engine;
 
-    constructor(x, y, color, controlType: ControlType) {
+    constructor(x, y, color, controlType: ControlType, bricks: Array<Brick>, position: Position) {
         super(x, y, 10, 100, color);
 
         this.collisionType = ex.CollisionType.Fixed;
         this.controlType = controlType;
+        this.bricks = bricks;
+        this.position = position;
+        this.color = color;
     }
 
     movePanelUp(delta: number = 10) {
@@ -35,8 +46,22 @@ export class Panel extends ex.Actor {
         }
     }
 
+    shoot(): void {
+        let xPos = this.pos.x;
+
+        if (this.position === Position.Left) {
+            xPos += this.getWidth();
+        } else if (this.position === Position.Right) {
+            xPos -= this.getWidth();
+        }
+        let newShot = new Shot(xPos, this.pos.y, this.bricks, this);
+        this.game.add(newShot);
+    }
+
     onInitialize(engine: ex.Engine) {
         super.onInitialize(engine);
+
+        this.game = engine;
 
         switch (this.controlType) {
             case ControlType.WASD:
@@ -47,6 +72,12 @@ export class Panel extends ex.Actor {
                         this.movePanelDown();
                     }
                 });
+
+                engine.input.keyboard.on("press", (evt: KeyEvent) => {
+                    if(evt.key === ex.Input.Keys.A || evt.key === ex.Input.Keys.D) {
+                        this.shoot();
+                    }
+                })
                 break;
             case ControlType.IJKL:
                 engine.input.keyboard.on("hold", (evt: KeyEvent) => {
@@ -56,6 +87,12 @@ export class Panel extends ex.Actor {
                         this.movePanelDown();
                     }
                 });
+
+                engine.input.keyboard.on("press", (evt: KeyEvent) => {
+                    if(evt.key === ex.Input.Keys.J || evt.key === ex.Input.Keys.L) {
+                        this.shoot();
+                    }
+                })
                 break;
             case ControlType.Arrows:
                 engine.input.keyboard.on("hold", (evt: KeyEvent) => {
@@ -65,11 +102,20 @@ export class Panel extends ex.Actor {
                         this.movePanelDown();
                     }
                 });
+
+                engine.input.keyboard.on("press", (evt: KeyEvent) => {
+                    if(evt.key === ex.Input.Keys.Left || evt.key === ex.Input.Keys.Right) {
+                        this.shoot();
+                    }
+                })
                 break;
             case ControlType.Mouse:
             default:
                 engine.input.pointers.primary.on('move', (evt: PointerEvent) => {
                     this.pos.y = evt.y;
+                });
+                engine.input.pointers.primary.on('click', (evt: PointerEvent) => {
+                    this.shoot();
                 });
                 break;
         }

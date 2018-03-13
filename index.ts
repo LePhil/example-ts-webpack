@@ -1,10 +1,11 @@
 import * as ex from 'excalibur';
+import {Position, Config} from "./game/Config";
 import {Resources} from "./game/Resources";
 import {Panel, ControlType} from "./game/Panel";
 import {Ball} from "./game/Ball";
 import {Brick} from "./game/Brick";
 
-let game = new ex.Engine({ width: 1024, height: 768 });
+let game = new ex.Engine({ width: Config.Width, height: Config.Height });
 let loader = new ex.Loader();
 
 for (let r in Resources) {
@@ -44,14 +45,14 @@ for (let i = 0; i < nrOfBricks; i++) {
     game.add(brick2);
 }
 
-let panelLeft = new Panel(200, 200, ex.Color.Blue, ControlType.WASD);
-game.add(panelLeft);
-
-let panelRight = new Panel(800, 200, ex.Color.Red, ControlType.Arrows);
-game.add(panelRight);
-
 let ball = new Ball(100, 300, bricks);
 game.add(ball);
+
+let panelLeft = new Panel(200, 200, ex.Color.Blue, ControlType.WASD, bricks, Position.Left);
+game.add(panelLeft);
+
+let panelRight = new Panel(800, 200, ex.Color.Red, ControlType.Arrows, bricks, Position.Right);
+game.add(panelRight);
 
 
 game.start(loader).then(() => {
