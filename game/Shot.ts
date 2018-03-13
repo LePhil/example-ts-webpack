@@ -15,7 +15,7 @@ export class Shot extends ex.Actor {
 
         this.bricks = bricks;
         this.creator = creator;
-        this.collisionType = ex.CollisionType.Fixed;
+        this.collisionType = ex.CollisionType.Passive;
 
         if (this.creator.position === Position.Left) {
             this.vel.setTo(Config.Bulletspeed, 0);
