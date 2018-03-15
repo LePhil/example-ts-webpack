@@ -66,13 +66,13 @@ class WaterBubbleEffect extends Effect {
 export class TrailEffect extends Effect {
     private origin: PlayerPosition;
 
-    constructor(origin: PlayerPosition) {
-        super(new Vector(0,0), 0, true);
+    constructor(x, y, origin: PlayerPosition) {
+        super(new Vector(x,y), 0, true);
         this.origin = origin;        
     }
 
     onInitialize(engine: ex.Engine): void {
-        this.emitter = new ex.ParticleEmitter(this.pos.x, this.pos.y, 10, 10);
+        this.emitter = new ex.ParticleEmitter(0, 0, 10, 10);
         this.emitter.emitterType = ex.EmitterType.Circle;
         this.emitter.radius = 10;
         this.emitter.minVel = 100;
@@ -90,7 +90,7 @@ export class TrailEffect extends Effect {
         this.emitter.emitRate = 10;
         this.emitter.opacity = 0.17;
         this.emitter.fadeFlag = true;
-        this.emitter.particleLife = 1540;
+        this.emitter.particleLife = 400;
         this.emitter.maxSize = 10;
         this.emitter.minSize = 1;
         this.emitter.startSize = 10;

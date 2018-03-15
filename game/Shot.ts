@@ -7,7 +7,7 @@ import {TrailEffect} from "./Effects";
 import {PlayerPosition, Config} from "./Config";
 
 export class Shot extends ex.Actor {
-
+    private effect: TrailEffect;
     private bricks: Array<Brick>; 
     private creator: Panel;
 
@@ -30,8 +30,9 @@ export class Shot extends ex.Actor {
     }
 
     onInitialize(engine: ex.Engine): void {
-        // TODO: problem - the effect disappears as soon as the parent is killed
-        this.add(new TrailEffect(this.creator.position));
+        this.effect = new TrailEffect(this.creator.pos.x, this.creator.pos.y, this.creator.position);
+        this.effect.actions.follow(this, 0);
+        engine.add(this.effect);
     }
 
     draw(ctx: CanvasRenderingContext2D, delta: number) {
@@ -51,5 +52,15 @@ export class Shot extends ex.Actor {
         }
 
         this.kill();
+    }
+
+    kill(): void {
+        this.effect.pause();
+
+        setTimeout(() => {
+            this.effect.kill;
+        }, 500);
+
+        super.kill();
     }
 }
