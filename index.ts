@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import {Position, Config} from "./game/Config";
+import {PlayerPosition, Config} from "./game/Config";
 import {Resources} from "./game/Resources";
 import {Panel, ControlType} from "./game/Panel";
 import {Ball} from "./game/Ball";
@@ -48,10 +48,10 @@ for (let i = 0; i < nrOfBricks; i++) {
 let ball = new Ball(100, 300, bricks);
 game.add(ball);
 
-let panelLeft = new Panel(200, 200, ex.Color.Blue, ControlType.WASD, bricks, Position.Left);
+let panelLeft = new Panel(200, 200, ex.Color.Blue, ControlType.WASD, bricks, PlayerPosition.Left);
 game.add(panelLeft);
 
-let panelRight = new Panel(800, 200, ex.Color.Red, ControlType.Arrows, bricks, Position.Right);
+let panelRight = new Panel(800, 200, ex.Color.Red, ControlType.Arrows, bricks, PlayerPosition.Right);
 game.add(panelRight);
 
 

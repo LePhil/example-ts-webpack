@@ -3,7 +3,8 @@ import {Resources} from "./Resources";
 import {Brick} from "./Brick";
 import {Ball} from "./Ball";
 import {Panel} from "./Panel";
-import {Position, Config} from "./Config";
+import {TrailEffect} from "./Effects";
+import {PlayerPosition, Config} from "./Config";
 
 export class Shot extends ex.Actor {
 
@@ -17,9 +18,9 @@ export class Shot extends ex.Actor {
         this.creator = creator;
         this.collisionType = ex.CollisionType.Passive;
 
-        if (this.creator.position === Position.Left) {
+        if (this.creator.position === PlayerPosition.Left) {
             this.vel.setTo(Config.Bulletspeed, 0);
-        } else if (this.creator.position === Position.Right) {
+        } else if (this.creator.position === PlayerPosition.Right) {
             this.vel.setTo(-Config.Bulletspeed, 0);
         }
 
@@ -28,10 +29,15 @@ export class Shot extends ex.Actor {
         });
     }
 
-    draw(ctx: CanvasRenderingContext2D, delta: number) {
-        //super.draw(ctx, delta);
+    onInitialize(engine: ex.Engine): void {
+        // TODO: problem - the effect disappears as soon as the parent is killed
+        this.add(new TrailEffect(this.creator.position));
+    }
 
-        // Custom draw code
+    draw(ctx: CanvasRenderingContext2D, delta: number) {
+        super.draw(ctx, delta);
+
+        // make a ball
         ctx.fillStyle = this.color.toString();
         ctx.beginPath();
         ctx.arc(this.pos.x, this.pos.y, 10, 0, Math.PI * 2);

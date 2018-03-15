@@ -1,5 +1,5 @@
 import * as ex from "excalibur";
-import {Position, Config} from "./Config";
+import {PlayerPosition, Config} from "./Config";
 import {Resources} from "./Resources";
 import {Brick} from "./Brick";
 import {Shot} from "./Shot";
@@ -14,13 +14,13 @@ export enum ControlType {
 }
 
 export class Panel extends ex.Actor {
-    public position: Position;
+    public position: PlayerPosition;
     public color: ex.Color;
     private controlType: ControlType;
     private bricks: Array<Brick>;
     private game: ex.Engine;
 
-    constructor(x, y, color, controlType: ControlType, bricks: Array<Brick>, position: Position) {
+    constructor(x, y, color, controlType: ControlType, bricks: Array<Brick>, position: PlayerPosition) {
         super(x, y, 10, 100, color);
 
         this.collisionType = ex.CollisionType.Fixed;
@@ -49,9 +49,9 @@ export class Panel extends ex.Actor {
     shoot(): void {
         let xPos = this.pos.x;
 
-        if (this.position === Position.Left) {
+        if (this.position === PlayerPosition.Left) {
             xPos += this.getWidth();
-        } else if (this.position === Position.Right) {
+        } else if (this.position === PlayerPosition.Right) {
             xPos -= this.getWidth();
         }
         let newShot = new Shot(xPos, this.pos.y, this.bricks, this);

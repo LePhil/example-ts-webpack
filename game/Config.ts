@@ -1,6 +1,6 @@
 import * as ex from "excalibur";
 
-export enum Position {
+export enum PlayerPosition {
     Left,
     Right
 }
