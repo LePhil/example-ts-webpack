@@ -111,3 +111,38 @@ export class TrailEffect extends Effect {
         }
     }
 }
+
+export class ExplosionEffect extends Effect {
+    onInitialize(engine: ex.Engine): void {
+        this.emitter = new ex.ParticleEmitter(0, 0, 2, 2);
+        this.emitter.emitterType = ex.EmitterType.Circle;
+        this.emitter.radius = 5;
+        this.emitter.minVel = 37;
+        this.emitter.maxVel = 194;
+        this.emitter.minAngle = 0;
+        this.emitter.maxAngle = 6.2;
+        this.emitter.emitRate = 90;
+        this.emitter.opacity = 0.34;
+        this.emitter.fadeFlag = true;
+        this.emitter.particleLife = 464;
+        this.emitter.maxSize = 12;
+        this.emitter.minSize = 1;
+        this.emitter.startSize = 12;
+        this.emitter.endSize = 6;
+        this.emitter.acceleration = new ex.Vector(0, 0);
+        this.emitter.beginColor = ex.Color.Yellow;
+        this.emitter.endColor = ex.Color.Red;
+        this.emitter.isEmitting = this._autoplay;
+
+        this.add(this.emitter);
+
+        if (this._duration > 0) {
+            setTimeout(() => {
+                    this.emitter.isEmitting = false;
+                    this.emitter.kill();
+                    this.kill();
+                }, this._duration * 1000
+            );
+        }
+    }
+}

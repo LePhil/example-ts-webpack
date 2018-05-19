@@ -3,7 +3,7 @@ import {Resources} from "./Resources";
 import {Brick} from "./Brick";
 import {Ball} from "./Ball";
 import {Panel} from "./Panel";
-import {TrailEffect} from "./Effects";
+import {TrailEffect, ExplosionEffect} from "./Effects";
 import {PlayerPosition, Config} from "./Config";
 
 export class Shot extends ex.Actor {
@@ -49,6 +49,17 @@ export class Shot extends ex.Actor {
     onCollision(ev) {
         if (this.bricks.indexOf(ev.other) > -1) {
             ev.other.kill();
+            this.add(
+                new ExplosionEffect(
+                    new ex.Vector(this.pos.x, this.pos.y),
+                    1,
+                    true
+                )
+            );
+
+            setTimeout(() => {
+
+            }, )
         }
 
         this.kill();

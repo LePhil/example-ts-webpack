@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "all": "node_modules/.bin/webpack"
+    "all": "node_modules/.bin/webpack",
+    "local": "node_modules/.bin/webpack && http-server"
   },
   "author": "Excalibur.js Team",
   "license": "BSD-2-Clause",
@@ -12,6 +13,9 @@
     "excalibur": "next",
     "ts-loader": "^1.3.3",
     "typescript": "^2.1.4",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "http-server": "^0.11.1"
+  },
+  "dependencies": {
   }
 }
